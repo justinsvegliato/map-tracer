@@ -1,13 +1,13 @@
 var React = require('react');
-var MapTracerApp = require('./components/MapTracerApp.react');
-var DataPanel = require('./components/DataPanel.react');
+var MapEditor = require('./components/MapEditor.react');
+var ControlPane = require('./components/ControlPane.react');
 
 React.render(
-  <MapTracerApp />,
-  document.getElementById('map-tracer')
+  <MapEditor />,
+  document.getElementById('map-editor')
 );
 
 React.render(
-  <DataPanel />,
-  document.getElementById('data-panel')
+  <ControlPane />,
+  document.getElementById('control-pane')
 );

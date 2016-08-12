@@ -1,23 +1,26 @@
 var React = require('react');
 var Map = require('./Map.react');
 var InputField = require('./InputField.react')
-var RepresentationDialog = require('./RepresentationDialog.react')
+var GraphDialog = require('./GraphDialog.react')
 var MapTracerStore = require('../stores/MapTracerStore');
 var MapTracerActions = require('../actions/MapTracerActions');
 
+function getState() {
+  return {
+    graph: MapTracerStore.getGraph(),
+    imageUrl: MapTracerStore.getImageUrl(),
+    initialXPosition: MapTracerStore.getInitialXPosition(),
+    terminalXPosition: MapTracerStore.getTerminalXPosition(),
+    initialYPosition: MapTracerStore.getInitialYPosition(),
+    terminalYPosition: MapTracerStore.getTerminalYPosition(),
+    imageWidth: MapTracerStore.getImageWidth(),
+    imageHeight: MapTracerStore.getImageHeight()
+  };
+}
 
-var MapTracerApp = React.createClass({
+var MapEditor = React.createClass({
   getInitialState: function() {
-    return {
-      representation: MapTracerStore.getRepresentation(),
-      imageUrl: MapTracerStore.getImageUrl(),
-      initialXPosition: MapTracerStore.getInitialXPosition(),
-      terminalXPosition: MapTracerStore.getTerminalXPosition(),
-      initialYPosition: MapTracerStore.getInitialYPosition(),
-      terminalYPosition: MapTracerStore.getTerminalYPosition(),
-      imageWidth: MapTracerStore.getImageWidth(),
-      imageHeight: MapTracerStore.getImageHeight()
-    };
+    return getState();
   },
   componentDidMount: function () {
     MapTracerStore.addChangeListener(this._onStoreChange);
@@ -26,16 +29,7 @@ var MapTracerApp = React.createClass({
     MapTracerStore.removeChangeListener(this._onStoreChange);
   },
   _onStoreChange: function() {
-    this.setState({
-      representation: MapTracerStore.getRepresentation(),
-      imageUrl: MapTracerStore.getImageUrl(),
-      initialXPosition: MapTracerStore.getInitialXPosition(),
-      terminalXPosition: MapTracerStore.getTerminalXPosition(),
-      initialYPosition: MapTracerStore.getInitialYPosition(),
-      terminalYPosition: MapTracerStore.getTerminalYPosition(),
-      imageWidth: MapTracerStore.getImageWidth(),
-      imageHeight: MapTracerStore.getImageHeight()
-    });
+    this.setState(getState());
   },
   _onImageUrlChange: function(event) {
     MapTracerActions.setImageUrl(event.target.value);
@@ -58,8 +52,11 @@ var MapTracerApp = React.createClass({
   _onImageHeightChange: function(event) {
     MapTracerActions.setImageHeight(event.target.value);
   },
-  _onButtonClick: function() {
+  _onClick: function() {
     var dialog = document.querySelector('dialog');
+    dialog.querySelector('.close').addEventListener('click', function() {
+      dialog.close();
+    });
     dialog.showModal();
   },
   render: function() {
@@ -76,12 +73,12 @@ var MapTracerApp = React.createClass({
         <InputField className='medium-input' id='image-width' label='Image Width' value={this.state.imageWidth} onChange={this._onImageWidthChange} />
         <InputField className='medium-input' id='image-height' label='Image Height' value={this.state.imageHeight} onChange={this._onImageHeightChange} />
 
-        <button className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onClick={this._onButtonClick}>Generate</button>
+        <button className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onClick={this._onClick}>Generate</button>
 
-        <RepresentationDialog representation={this.state.representation} />
+        <GraphDialog graph={this.state.graph} />
       </div>
     );
   }
 });
 
-module.exports = MapTracerApp;
+module.exports = MapEditor;

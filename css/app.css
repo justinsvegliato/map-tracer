@@ -1,4 +1,4 @@
-#map-tracer {
+#map-editor {
     margin: 20px auto;
     padding: 40px;
 }
@@ -14,29 +14,31 @@
     margin-right: 40px;
 }
 
-#representation-dialog {
+#graph-dialog {
     width: 50%;
 }
 
-#representation {
+#graph {
     max-height: 300px;
     margin-top: 15px;
     border: 1px solid #e1e1e1;
     overflow: auto;
 }
 
-#data-panel {
+#control-pane {
     background-color: #e91c63;
     padding: 20px;
-    width: 200px;
+    width: 300px;
 }
 
-#delete {
+#delete, #clear {
     float: right;
+    margin-right: 10px
 }
 
-#delete:hover {
+#delete:hover, #clear:hover {
     cursor: pointer;
+    color: #3f51b5;
 }
 
 .marker {
