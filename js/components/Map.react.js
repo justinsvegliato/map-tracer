@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var $ = require('jquery');
 var Marker = require('./Marker.react');
@@ -51,22 +53,16 @@ var Map = React.createClass({
       MapTracerActions.selectNode(node);
     }
   },
+  _getMarker: function(node) {
+    var isActive = this.state.selectedNode && this.state.selectedNode === node;
+    return <Marker isActive={isActive} node={node} onClick={this._onMarkerClick.bind(this, node)} />;
+  },
+  _getLine: function(edge) {
+    return <Line startNode={edge.startNode} endNode={edge.endNode} />;
+  },
   render: function() {
-    var nodes = this.state.nodes.map(function(node) {
-      if (this.state.selectedNode) {
-        var isActive = this.state.selectedNode.x === node.x && this.state.selectedNode.y === node.y;
-      }
-      return <Marker isActive={isActive} node={node} onClick={this._onMarkerClick.bind(this, node)} />
-    }.bind(this));
-
-    var lines = this.state.edges.map(function(edge) {
-      return <Line from={{x: edge.startNode.x, y: edge.startNode.y}} to={{x: edge.endNode.x, y: edge.endNode.y}} style='2px solid orange' />;
-    });
-
-    var data = '';
-    if (this.state.selectedNode) {
-      data = this.state.selectedNode.x;
-    }
+    var nodes = this.state.nodes.map(this._getMarker);
+    var lines = this.state.edges.map(this._getLine);
 
     return (
       <div id='map'>

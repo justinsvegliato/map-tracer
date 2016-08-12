@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var MapTracerStore = require('../stores/MapTracerStore');
 var MapTracerActions = require('../actions/MapTracerActions');
@@ -35,14 +37,13 @@ var InfoPane = React.createClass({
     if (this.state.selectedNode) {
       var x = this.state.selectedNode.x;
       var y = this.state.selectedNode.y;
-      coordinates = MapTracerHelper.getCoordinates(x, y)
+      coordinates = MapTracerHelper.getCoordinates(x, y);
     }
 
     return (
       <div>
         <span>{coordinates}</span>
-        <span id='delete' className='icons material-icons' onClick={this._onDelete.bind(this, this.state.selectedNode)}>delete</span>
-        <span id='clear' className='icons material-icons' onClick={this._onClear}>clear</span>
+        <span id='delete' className='icons material-icons ' onClick={this._onDelete.bind(this, this.state.selectedNode)}>delete</span>
       </div>
     );
   }

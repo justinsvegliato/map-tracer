@@ -1,3 +1,5 @@
+'use strict';
+
 var assign = require('object-assign');
 var EventEmitter = require('events').EventEmitter;
 var AppDispatcher = require('../dispatcher/AppDispatcher');
@@ -10,16 +12,25 @@ var nodes = [];
 var edges = [];
 var selectedNode = null;
 
-var imageUrl = 'https://justinsvegliato.com/img/GenericWorld.png';
-var imageWidth = 816;
-var imageHeight = 929;
+var imageUrl = null;
+//var imageUrl = 'https://justinsvegliato.com/img/GenericWorld.png';
+
+var imageWidth = null;
+var imageHeight = null;
+//var imageWidth = 816;
+//var imageHeight = 929;
+
 var imageLeftOffset = null;
 var imageTopOffset = null;
 
-var initialXPosition = -1500;
-var terminalXPosition = 8500;
-var initialYPosition = -1600;
-var terminalYPosition = 9800;
+var initialXPosition = null;
+var terminalXPosition = null;
+var initialYPosition = null;
+var terminalYPosition = null;
+//var initialXPosition = -1500;
+//var terminalXPosition = 8500;
+//var initialYPosition = -1600;
+//var terminalYPosition = 9800;
 
 var MapTracerStore = assign({}, EventEmitter.prototype, {
   getNodes: function() {
@@ -40,13 +51,13 @@ var MapTracerStore = assign({}, EventEmitter.prototype, {
     return initialXPosition;
   },
   getTerminalXPosition: function() {
-    return terminalXPosition
+    return terminalXPosition;
   },
   getInitialYPosition: function() {
-    return initialYPosition
+    return initialYPosition;
   },
   getTerminalYPosition: function() {
-    return terminalYPosition
+    return terminalYPosition;
   },
   getImageUrl: function() {
     return imageUrl;
@@ -71,7 +82,7 @@ var MapTracerStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register(function(action) {
   switch(action.actionType) {
     case MapTracerConstants.ADD_NODE:
-      nodes.push(action.node)
+      nodes.push(action.node);
       MapTracerStore.emitChange();
       break;
     case MapTracerConstants.DELETE_NODE:
@@ -83,7 +94,7 @@ AppDispatcher.register(function(action) {
 
       edges = edges.filter(function(edge) {
         return action.node.id !== edge.startNode.id && action.node.id !== edge.endNode.id;
-      })
+      });
 
       MapTracerStore.emitChange();
       break;
@@ -96,7 +107,7 @@ AppDispatcher.register(function(action) {
       MapTracerStore.emitChange();
       break;
     case MapTracerConstants.ADD_EDGE:
-      edges.push(action.edge)
+      edges.push(action.edge);
       MapTracerStore.emitChange();
       break;
     case MapTracerConstants.CLEAR_MAP:

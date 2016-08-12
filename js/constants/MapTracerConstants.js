@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   ADD_NODE: 0,
   DELETE_NODE: 1,

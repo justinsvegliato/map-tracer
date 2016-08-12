@@ -1,3 +1,5 @@
+'use strict';
+
 var Node = require('./Node.js');
 var MapTracerHelper = require('../services/MapTracerHelper');
 

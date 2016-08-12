@@ -25,11 +25,16 @@
     position: absolute;
     cursor: pointer;
     font-size: 10px;
-    color: #252525;
+    color: #4a4a4a;
+}
+
+.marker:hover {
+    color: #000;
 }
 
 .active-marker {
     font-size: 24px;
+    color: #000;
 }
 
 .line {
@@ -63,4 +68,12 @@
 
 footer {
     text-align: center;
+}
+
+.title {
+    font-weight: 500;
+}
+
+.version {
+    color: #828bbd;
 }

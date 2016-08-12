@@ -1,23 +1,27 @@
+'use strict';
+
 var React = require('react');
+var MapTracerHelper = require('../services/MapTracerHelper');
 
 var Line = React.createClass({
   render: function () {
-    var from = this.props.from;
-    var to = this.props.to;
-    if (to.x < from.x) {
-      from = this.props.to;
-      to = this.props.from;
+    var startNode = this.props.startNode;
+    var endNode = this.props.endNode;
+
+    if (endNode.x < startNode.x) {
+      startNode = this.props.endNode;
+      endNode = this.props.startNode;
     }
 
-    var len = Math.sqrt(Math.pow(from.x - to.x, 2) + Math.pow(from.y - to.y, 2));
-    var angle = Math.atan((to.y - from.y) / (to.x - from.x));
+    var len = Math.sqrt(Math.pow(endNode.x - startNode.x, 2) + Math.pow(endNode.y - startNode.y, 2));
+    var angle = Math.atan((endNode.y - startNode.y) / (endNode.x - startNode.x));
 
     var style = {
       position: 'absolute',
-      transform: `translate(${from.x - .5 * len * (1 - Math.cos(angle))}px, ${from.y + .5 * len * Math.sin(angle)}px) rotate(${angle}rad)`,
+      transform: `translate(${startNode.x - .5 * len * (1 - Math.cos(angle))}px, ${startNode.y + .5 * len * Math.sin(angle)}px) rotate(${angle}rad)`,
       width: `${len}px`,
       height: `${0}px`,
-      borderBottom: this.props.style || '1px solid black'
+      borderBottom: '2px solid orange'
     };
 
     return <div className='line' style={style}></div>;

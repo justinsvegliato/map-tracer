@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 
 var Marker = React.createClass({
@@ -8,8 +10,8 @@ var Marker = React.createClass({
 
     if (this.props.isActive) {
       className += ' active-marker';
-      type = 'gps_fixed'
-      adjustment = 12
+      type = 'gps_fixed';
+      adjustment = 12;
     }
 
     var style = {
