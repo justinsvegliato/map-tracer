@@ -1,0 +1,27 @@
+{
+  "name": "map-tracer",
+  "version": "0.0.1",
+  "description": "A tool for plotting nodes and edges on top of maps.",
+  "repository": "https://github.com/justinsvegliato/map-tracer",
+  "main": "js/app.js",
+  "dependencies": {
+    "flux": "^2.0.1",
+    "jquery": "^3.1.0",
+    "object-assign": "^1.0.0",
+    "react": "^0.13.0"
+  },
+  "devDependencies": {
+    "browserify": "^6.2.0",
+    "reactify": "^0.15.2",
+    "watchify": "^2.1.1"
+  },
+  "scripts": {
+    "start": "watchify -o js/bundle.js -d js/app.js"
+  },
+  "author": "Justin Svegliato",
+  "browserify": {
+    "transform": [
+      "reactify"
+    ]
+  }
+}
