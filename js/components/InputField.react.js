@@ -1,6 +1,4 @@
 var React = require('react');
-var MapTracerStore = require('../stores/MapTracerStore');
-var MapTracerActions = require('../actions/MapTracerActions');
 
 var InputField = React.createClass({
   render: function () {

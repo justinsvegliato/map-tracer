@@ -10,10 +10,6 @@
     text-align: center;
 }
 
-#save-button {
-    margin-right: 40px;
-}
-
 #graph-dialog {
     width: 50%;
 }
@@ -23,22 +19,6 @@
     margin-top: 15px;
     border: 1px solid #e1e1e1;
     overflow: auto;
-}
-
-#control-pane {
-    background-color: #e91c63;
-    padding: 20px;
-    width: 300px;
-}
-
-#delete, #clear {
-    float: right;
-    margin-right: 10px
-}
-
-#delete:hover, #clear:hover {
-    cursor: pointer;
-    color: #3f51b5;
 }
 
 .marker {
@@ -63,6 +43,22 @@
 
 .medium-input {
     width: 50%;
+}
+
+#control-pane {
+    background-color: #e91c63;
+    padding: 20px;
+    width: 300px;
+}
+
+#delete, #clear {
+    float: right;
+    margin-right: 10px
+}
+
+#delete:hover, #clear:hover {
+    cursor: pointer;
+    color: #3f51b5;
 }
 
 footer {

@@ -5,6 +5,8 @@ var GraphDialog = require('./GraphDialog.react')
 var MapTracerStore = require('../stores/MapTracerStore');
 var MapTracerActions = require('../actions/MapTracerActions');
 
+var offset = 0;
+
 function getState() {
   return {
     graph: MapTracerStore.getGraph(),
@@ -73,7 +75,7 @@ var MapEditor = React.createClass({
         <InputField className='medium-input' id='image-width' label='Image Width' value={this.state.imageWidth} onChange={this._onImageWidthChange} />
         <InputField className='medium-input' id='image-height' label='Image Height' value={this.state.imageHeight} onChange={this._onImageHeightChange} />
 
-        <button className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onClick={this._onClick}>Generate</button>
+        <button className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored' onClick={this._onClick}>Generate</button>
 
         <GraphDialog graph={this.state.graph} />
       </div>

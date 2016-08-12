@@ -2,12 +2,6 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var MapTracerConstants = require('../constants/MapTracerConstants');
 
 var MapTracerActions = {
-  setImageUrl: function(imageUrl) {
-    AppDispatcher.dispatch({
-      actionType: MapTracerConstants.SET_IMAGE_URL,
-      imageUrl: imageUrl
-    });
-  },
   addNode: function(node) {
     AppDispatcher.dispatch({
       actionType: MapTracerConstants.ADD_NODE,
@@ -20,16 +14,26 @@ var MapTracerActions = {
       node: node
     });
   },
+  selectNode: function(selectedNode) {
+    AppDispatcher.dispatch({
+      actionType: MapTracerConstants.SELECT_NODE,
+      selectedNode: selectedNode
+    });
+  },
+  deselectNode: function() {
+    AppDispatcher.dispatch({
+      actionType: MapTracerConstants.DESELECT_NODE
+    });
+  },
   addEdge: function(edge) {
     AppDispatcher.dispatch({
       actionType: MapTracerConstants.ADD_EDGE,
       edge: edge
     });
   },
-  setPreviousNode: function(previousNode) {
+  clearMap: function() {
     AppDispatcher.dispatch({
-      actionType: MapTracerConstants.SET_PREVIOUS_NODE,
-      previousNode: previousNode
+      actionType: MapTracerConstants.CLEAR_MAP
     });
   },
   setInitialXPosition: function(position) {
@@ -56,16 +60,29 @@ var MapTracerActions = {
       position: position
     });
   },
-  setImageWidth: function(width) {
+  setImageUrl: function(imageUrl) {
     AppDispatcher.dispatch({
-      actionType: MapTracerConstants.SET_IMAGE_WIDTH,
-      width: width
+      actionType: MapTracerConstants.SET_IMAGE_URL,
+      imageUrl: imageUrl
     });
   },
-  setImageHeight: function(height) {
+  setImageWidth: function(imageWidth) {
+    AppDispatcher.dispatch({
+      actionType: MapTracerConstants.SET_IMAGE_WIDTH,
+      imageWidth: imageWidth
+    });
+  },
+  setImageHeight: function(imageHeight) {
     AppDispatcher.dispatch({
       actionType: MapTracerConstants.SET_IMAGE_HEIGHT,
-      height: height
+      imageHeight: imageHeight
+    });
+  },
+  setImageOffset: function(imageLeftOffset, imageTopOffset) {
+    AppDispatcher.dispatch({
+      actionType: MapTracerConstants.SET_IMAGE_OFFSET,
+      imageLeftOffset: imageLeftOffset,
+      imageTopOffset: imageTopOffset
     });
   }
 };

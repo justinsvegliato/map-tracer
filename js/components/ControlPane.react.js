@@ -31,7 +31,7 @@ var InfoPane = React.createClass({
     MapTracerActions.clearMap();
   },
   render: function() {
-    var coordinates = "Nothing selected =(";
+    var coordinates = 'Nothing selected =(';
     if (this.state.selectedNode) {
       var x = this.state.selectedNode.x;
       var y = this.state.selectedNode.y;
@@ -41,8 +41,8 @@ var InfoPane = React.createClass({
     return (
       <div>
         <span>{coordinates}</span>
-        <span id="delete" className='icons material-icons' onClick={this._onDelete.bind(this, this.state.selectedNode)}>delete</span>
-        <span id="clear" className='icons material-icons' onClick={this._onClear}>clear</span>
+        <span id='delete' className='icons material-icons' onClick={this._onDelete.bind(this, this.state.selectedNode)}>delete</span>
+        <span id='clear' className='icons material-icons' onClick={this._onClear}>clear</span>
       </div>
     );
   }

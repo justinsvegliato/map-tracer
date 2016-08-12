@@ -2,6 +2,7 @@ var assign = require('object-assign');
 var EventEmitter = require('events').EventEmitter;
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var MapTracerConstants = require('../constants/MapTracerConstants');
+var MapTracerHelper = require('../services/MapTracerHelper');
 
 var CHANGE_EVENT = 'change';
 
@@ -9,19 +10,18 @@ var nodes = [];
 var edges = [];
 var selectedNode = null;
 
-var imageUrl = 'https://s10.postimg.org/9ch58fs5l/Generic_World.png';
+var imageUrl = 'https://justinsvegliato.com/img/GenericWorld.png';
+var imageWidth = 816;
+var imageHeight = 929;
+var imageLeftOffset = null;
+var imageTopOffset = null;
 
 var initialXPosition = -1500;
 var terminalXPosition = 8500;
 var initialYPosition = -1600;
 var terminalYPosition = 9800;
-var imageWidth = 816;
-var imageHeight = 929;
 
 var MapTracerStore = assign({}, EventEmitter.prototype, {
-  getImageUrl: function() {
-    return imageUrl;
-  },
   getNodes: function() {
     return nodes;
   },
@@ -32,19 +32,9 @@ var MapTracerStore = assign({}, EventEmitter.prototype, {
     return selectedNode;
   },
   getGraph: function() {
-    var adjustedEdges = edges.map(function(edge) {
-      return {
-        id: edge.id,
-        startNodeId: edge.startNode.id,
-        endNodeId: edge.endNode.id,
-        weight: edge.weight
-      }
-    });
-
-    return JSON.stringify({
-      nodes: nodes,
-      edges: adjustedEdges
-    }, null, 2);
+    var xScale = MapTracerHelper.getScale(initialXPosition, terminalXPosition, imageWidth);
+    var yScale = MapTracerHelper.getScale(initialYPosition, terminalYPosition, imageHeight);
+    return MapTracerHelper.getGraph(nodes, edges, xScale, yScale, initialXPosition, initialYPosition, imageLeftOffset, imageTopOffset);
   },
   getInitialXPosition: function() {
     return initialXPosition;
@@ -57,6 +47,9 @@ var MapTracerStore = assign({}, EventEmitter.prototype, {
   },
   getTerminalYPosition: function() {
     return terminalYPosition
+  },
+  getImageUrl: function() {
+    return imageUrl;
   },
   getImageWidth: function() {
     return imageWidth;
@@ -77,25 +70,8 @@ var MapTracerStore = assign({}, EventEmitter.prototype, {
 
 AppDispatcher.register(function(action) {
   switch(action.actionType) {
-    case MapTracerConstants.SET_IMAGE_URL:
-      imageUrl = action.imageUrl.trim();
-
-      nodes = [];
-      edges = [];
-      selectedNode = null;
-
-      MapTracerStore.emitChange();
-      break;
     case MapTracerConstants.ADD_NODE:
       nodes.push(action.node)
-      MapTracerStore.emitChange();
-      break;
-    case MapTracerConstants.SELECT_NODE:
-      selectedNode = action.selectedNode;
-      MapTracerStore.emitChange();
-      break;
-    case MapTracerConstants.DESELECT_NODE:
-      selectedNode = null;
       MapTracerStore.emitChange();
       break;
     case MapTracerConstants.DELETE_NODE:
@@ -109,6 +85,14 @@ AppDispatcher.register(function(action) {
         return action.node.id !== edge.startNode.id && action.node.id !== edge.endNode.id;
       })
 
+      MapTracerStore.emitChange();
+      break;
+    case MapTracerConstants.SELECT_NODE:
+      selectedNode = action.selectedNode;
+      MapTracerStore.emitChange();
+      break;
+    case MapTracerConstants.DESELECT_NODE:
+      selectedNode = null;
       MapTracerStore.emitChange();
       break;
     case MapTracerConstants.ADD_EDGE:
@@ -137,12 +121,26 @@ AppDispatcher.register(function(action) {
       terminalYPosition = action.position;
       MapTracerStore.emitChange();
       break;
+    case MapTracerConstants.SET_IMAGE_URL:
+      imageUrl = action.imageUrl.trim();
+
+      nodes = [];
+      edges = [];
+      selectedNode = null;
+
+      MapTracerStore.emitChange();
+      break;
     case MapTracerConstants.SET_IMAGE_WIDTH:
       imageWidth = action.imageWidth;
       MapTracerStore.emitChange();
       break;
     case MapTracerConstants.SET_IMAGE_HEIGHT:
       imageHeight = action.imageHeight;
+      MapTracerStore.emitChange();
+      break;
+    case MapTracerConstants.SET_IMAGE_OFFSET:
+      imageLeftOffset = action.imageLeftOffset;
+      imageTopOffset = action.imageTopOffset;
       MapTracerStore.emitChange();
       break;
     default:
