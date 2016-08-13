@@ -86,7 +86,18 @@ var MapTracerActions = {
       imageLeftOffset: imageLeftOffset,
       imageTopOffset: imageTopOffset
     });
-  }
+  },
+  setSimulationCoordinates: function(coordinates) {
+    AppDispatcher.dispatch({
+      actionType: MapTracerConstants.SET_SIMULATION_COORDINATES,
+      coordinates: coordinates
+    });
+  },
+  startSimulation: function() {
+    AppDispatcher.dispatch({
+      actionType: MapTracerConstants.START_SIMULATION
+    });
+  },
 };
 
 module.exports = MapTracerActions;

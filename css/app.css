@@ -1,4 +1,12 @@
-#map-editor {
+header {
+    box-shadow: none !important;
+}
+
+.mdl-layout-title {
+    font-size: 24px !important;
+}
+
+#map-editor, #simulator {
     margin: 20px auto;
     padding: 40px;
 }
@@ -42,7 +50,7 @@
     top: 0px !important;
 }
 
-.large-input {
+.large-input, .large-textfield {
     width: 100%;
 }
 
@@ -53,15 +61,15 @@
 #control-pane {
     background-color: #e91c63;
     padding: 20px;
-    width: 300px;
+    width: 43px;
 }
 
-#delete, #clear {
+#delete {
     float: right;
     margin-right: 10px
 }
 
-#delete:hover, #clear:hover {
+#delete:hover {
     cursor: pointer;
     color: #3f51b5;
 }
@@ -76,4 +84,8 @@ footer {
 
 .version {
     color: #828bbd;
+}
+
+.mdl-js-snackbar {
+    text-align: center;
 }

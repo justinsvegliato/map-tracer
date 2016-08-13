@@ -5,6 +5,7 @@ var EventEmitter = require('events').EventEmitter;
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var MapTracerConstants = require('../constants/MapTracerConstants');
 var MapTracerHelper = require('../services/MapTracerHelper');
+var Node = require('../models/Node');
 
 var CHANGE_EVENT = 'change';
 
@@ -13,13 +14,8 @@ var edges = [];
 var selectedNode = null;
 
 var imageUrl = null;
-//var imageUrl = 'https://justinsvegliato.com/img/GenericWorld.png';
-
 var imageWidth = null;
 var imageHeight = null;
-//var imageWidth = 816;
-//var imageHeight = 929;
-
 var imageLeftOffset = null;
 var imageTopOffset = null;
 
@@ -27,10 +23,11 @@ var initialXPosition = null;
 var terminalXPosition = null;
 var initialYPosition = null;
 var terminalYPosition = null;
-//var initialXPosition = -1500;
-//var terminalXPosition = 8500;
-//var initialYPosition = -1600;
-//var terminalYPosition = 9800;
+
+var isSimulationRunning = false;
+var coordinates = [];
+var coordinatesQueue = [];
+var visitedNodes = [];
 
 var MapTracerStore = assign({}, EventEmitter.prototype, {
   getNodes: function() {
@@ -67,6 +64,15 @@ var MapTracerStore = assign({}, EventEmitter.prototype, {
   },
   getImageHeight: function() {
     return imageHeight;
+  },
+  isSimulationRunning: function() {
+    return isSimulationRunning;
+  },
+  getSimulationNodes: function() {
+    return visitedNodes;
+  },
+  getCoordinates: function() {
+    return coordinates;
   },
   emitChange: function() {
     this.emit(CHANGE_EVENT);
@@ -152,6 +158,29 @@ AppDispatcher.register(function(action) {
     case MapTracerConstants.SET_IMAGE_OFFSET:
       imageLeftOffset = action.imageLeftOffset;
       imageTopOffset = action.imageTopOffset;
+      MapTracerStore.emitChange();
+      break;
+    case MapTracerConstants.SET_SIMULATION_COORDINATES:
+      coordinates = action.coordinates;
+      MapTracerStore.emitChange();
+      break;
+    case MapTracerConstants.START_SIMULATION:
+      isSimulationRunning = true;
+      visitedNodes = [];
+      coordinatesQueue = coordinates.slice();
+
+      var intervalId = setInterval(function() {
+        if (coordinatesQueue.length) {
+          var coordinates = coordinatesQueue.shift();
+          var node = new Node(coordinates[0], coordinates[1]);
+          visitedNodes.push(node);
+        } else {
+          isSimulationRunning = false;
+          clearInterval(intervalId);
+        }
+        MapTracerStore.emitChange();
+      }, 50);
+
       MapTracerStore.emitChange();
       break;
     default:

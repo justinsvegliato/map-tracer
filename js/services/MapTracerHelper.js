@@ -1,7 +1,8 @@
 'use strict';
 
+// TODO: Fix some of the casting issues. We should be using integers throughout the whole app.
 function getScaledPosition(position, scale, initialPosition) {
-  return (position * scale) + initialPosition;
+  return (position * scale) + parseFloat(initialPosition);
 }
 
 module.exports = {
@@ -10,6 +11,9 @@ module.exports = {
   },
   getScale: function(initialPosition, terminalPosition, reducedLength) {
     return (terminalPosition - initialPosition) / reducedLength;
+  },
+  getReversedScale: function(initialPosition, terminalPosition, reducedLength) {
+    return reducedLength / (terminalPosition - initialPosition);
   },
   getGraph: function(nodes, edges, xScale, yScale, initialXPosition, initialYPosition, imageLeftOffset, imageTopOffset) {
     var scaledNodes = {};

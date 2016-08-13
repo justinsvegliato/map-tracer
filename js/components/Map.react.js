@@ -20,7 +20,9 @@ function getState() {
     terminalYPosition: MapTracerStore.getTerminalYPosition(),
     imageWidth: MapTracerStore.getImageWidth(),
     imageHeight: MapTracerStore.getImageHeight(),
-    selectedNode: MapTracerStore.getSelectedNode()
+    selectedNode: MapTracerStore.getSelectedNode(),
+    isSimulationRunning: MapTracerStore.isSimulationRunning(),
+    simulationNodes: MapTracerStore.getSimulationNodes()
   };
 }
 
@@ -38,19 +40,23 @@ var Map = React.createClass({
     this.setState(getState());
   },
   _onMapClick: function(event) {
-    var offset = $("#image").offset();
-    MapTracerActions.setImageOffset(offset.left, offset.top);
+    if (!MapTracerStore.isSimulationRunning()) {
+      var offset = $("#image").offset();
+      MapTracerActions.setImageOffset(offset.left, offset.top);
 
-    MapTracerActions.addNode(new Node(event.pageX , event.pageY));
+      MapTracerActions.addNode(new Node(event.pageX, event.pageY));
+    }
   },
   _onMarkerClick: function(node) {
-    if (this.state.selectedNode && this.state.selectedNode.x === node.x && this.state.selectedNode.y === node.y) {
-      MapTracerActions.deselectNode();
-    } else {
-      if (this.state.selectedNode) {
-        MapTracerActions.addEdge(new Edge(this.state.selectedNode, node));
+    if (!MapTracerStore.isSimulationRunning()) {
+      if (this.state.selectedNode && this.state.selectedNode.x === node.x && this.state.selectedNode.y === node.y) {
+        MapTracerActions.deselectNode();
+      } else {
+        if (this.state.selectedNode) {
+          MapTracerActions.addEdge(new Edge(this.state.selectedNode, node));
+        }
+        MapTracerActions.selectNode(node);
       }
-      MapTracerActions.selectNode(node);
     }
   },
   _getMarker: function(node) {
@@ -60,15 +66,34 @@ var Map = React.createClass({
   _getLine: function(edge) {
     return <Line startNode={edge.startNode} endNode={edge.endNode} />;
   },
+  _getSimulationMarkers: function() {
+    return this.state.simulationNodes.map(function(node) {
+      return <Marker node={node} />;
+    });
+  },
+  _getSimulationLines: function() {
+    var simulationLines = [];
+    for (var i = 0; i < this.state.simulationNodes.length - 1; i++) {
+      simulationLines.push(<Line startNode={this.state.simulationNodes[i]} endNode={this.state.simulationNodes[i + 1]} />);
+    }
+    return simulationLines;
+  },
   render: function() {
-    var nodes = this.state.nodes.map(this._getMarker);
+    var markers = this.state.nodes.map(this._getMarker);
     var lines = this.state.edges.map(this._getLine);
+
+    var simulationMarkers = this._getSimulationMarkers()
+    var simulationLines = this._getSimulationLines();
 
     return (
       <div id='map'>
         <img id='image' src={this.state.image} onClick={this._onMapClick} />
+
         <div>{lines}</div>
-        <div>{nodes}</div>
+        <div>{markers}</div>
+
+        <div>{simulationLines}</div>
+        <div>{simulationMarkers}</div>
       </div>
     );
   }

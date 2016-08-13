@@ -11,7 +11,7 @@ var InputField = React.createClass({
 
     return (
       <div className={className}>
-        <input id={this.props.id} className='mdl-textfield__input' type='text' value={this.props.value} onChange={this.props.onChange}/>
+        <input disabled={this.props.disabled} id={this.props.id} className='mdl-textfield__input' type='text' value={this.props.value} onChange={this.props.onChange}/>
         <label htmlFor={this.props.id} className='mdl-textfield__label'>{this.props.label}</label>
       </div>
     );
