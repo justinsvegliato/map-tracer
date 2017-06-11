@@ -6,12 +6,12 @@ var Marker = React.createClass({
   render: function () {
     var className = 'icons material-icons marker';
     var type = 'brightness_1';
-    var adjustment = 5;
+    var adjustment = 4;
 
     if (this.props.isActive) {
       className += ' active-marker';
       type = 'gps_fixed';
-      adjustment = 12;
+      adjustment = 8;
     }
 
     var style = {

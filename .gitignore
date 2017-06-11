@@ -1,0 +1,5 @@
+node_modules/
+*.xml
+*.iml
+.name
+bundle.js
